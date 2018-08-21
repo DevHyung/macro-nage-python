@@ -19,28 +19,46 @@ if __name__ == "__main__":
     EXITTIME = int( input(">>>반복 끝나는 시간 설정 (초단위)::"))
 
     posList = []
-
+    new_posList = []
+# p1(x1,y1)     p2(x2,y1)
+# p3(x1,y2)     p4(x2,y2)
     p1 = input('사각형의 왼쪽 위 좌표에 커서를 둔 후 엔터키 입력::')
     print(win32api.GetCursorPos())
     posList.append(win32api.GetCursorPos())
     p4 = input('사각형의 오른쪽 아래 좌표에 커서를 둔 후 엔터키 입력::')
     print (win32api.GetCursorPos())
-    posList.append(win32api.GetCursorPos())
+    posList.append(win32api.GetCursorPos()) #[p1,p4]
     p2 = (posList[1][0],posList[0][1])
     p3 = (posList[0][0],posList[1][1])
-
     posList.insert(1, p2)
     posList.insert(2, p3)
-    print(posList)
+    p1 = posList[0]
+    p4 = posList[3]
+    print(posList) #[p1,p2,p3,p4]
+
+    new_posList.append(p1)
+    x = (p2[0]-p1[0])/5
+    y = (p3[1]-p1[1])/5
+
+    for i in range(6):
+        for j in range(6):
+            pN = (round(p1[0]+x*j), round(p1[1]+y*i))
+            new_posList.append(pN)
+    print(new_posList)
+
 
 
     print(">>> 클릭 시작")
+    print_format = "{:0.4f} 초 소요됨"
     now = time.time()
     while True:
-        for pos in posList:
+        start = time.time()
+        for pos in new_posList:
             win32api.SetCursorPos(pos)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
             if time.time() - now > EXITTIME:
                 exit(1)
-            time.sleep(DELAY)
+
+        end = time.time()
+        #print(print_format.format(end - start))
