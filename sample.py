@@ -1,6 +1,12 @@
 import win32api,win32con
 import time
 import threading
+from threading import Thread
+
+def exit_timer(_sec,_now):
+    time.sleep(_sec)
+    exit(-1)
+
 def valid_user():
     # 20180815 20:03기준 4시간
     print(time.time())
@@ -15,9 +21,9 @@ def valid_user():
 if __name__ == "__main__":
     #valid_user()
     #=== CONFIG
-    DELAY = float( input(">>>마우스 포인터 간 딜레이를 설정(초단위)::"))
+    #DELAY = float( input(">>>마우스 포인터 간 딜레이를 설정(초단위)::"))
     EXITTIME = int( input(">>>반복 끝나는 시간 설정 (초단위)::"))
-
+    OFFSET = int( input(">>>몇 등분 할 것인지 설정(정수로)::"))
     posList = []
     new_posList = []
 # p1(x1,y1)     p2(x2,y1)
@@ -37,11 +43,11 @@ if __name__ == "__main__":
     print(posList) #[p1,p2,p3,p4]
 
     new_posList.append(p1)
-    x = (p2[0]-p1[0])/5
-    y = (p3[1]-p1[1])/5
+    x = (p2[0]-p1[0])/OFFSET
+    y = (p3[1]-p1[1])/OFFSET
 
-    for i in range(6):
-        for j in range(6):
+    for i in range(OFFSET+1):
+        for j in range(OFFSET+1):
             pN = (round(p1[0]+x*j), round(p1[1]+y*i))
             new_posList.append(pN)
     print(new_posList)
@@ -50,7 +56,11 @@ if __name__ == "__main__":
 
     print(">>> 클릭 시작")
     print_format = "{:0.4f} 초 소요됨"
+
+
     now = time.time()
+    #t = Thread(target=exit_timer, args=(20, time.time()))
+    #t.start()
     while True:
         start = time.time()
         for pos in new_posList:
@@ -60,5 +70,5 @@ if __name__ == "__main__":
             if time.time() - now > EXITTIME:
                 exit(1)
 
-        end = time.time()
+        #end = time.time()
         #print(print_format.format(end - start))
