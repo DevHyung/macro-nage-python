@@ -47,6 +47,7 @@ if __name__ == "__main__":
         for j in range(OFFSET_G+1):
             pN = (p1[0]+x*j,p1[1]+y*i)
             new_posList.append(pN)
+    input(">>> 시작하려면 엔터키를 누르세요 ~ :: ")
     print(">>> 클릭 시작")
 
 
@@ -59,3 +60,4 @@ if __name__ == "__main__":
             time.sleep(MOUSE_DELAY)
             if time.time() - now > EXITTIME:
                 exit(1)
+        time.sleep(AREA_DELAY)
