@@ -5,7 +5,7 @@ def valid_user():
     # 20180815 20:03기준 4시간
     # print(time.time())
     now = 1534902170.077185
-    terminTime = now + 60 * 60 * 6
+    terminTime = now + 60 * 60 * 12
     print("체험판 만료기간 : ", time.ctime(terminTime))
     if time.time() > terminTime:
         print('만료되었습니다.')
@@ -14,7 +14,7 @@ def valid_user():
         print(">>>프로그램이 실행되었습니다.")
 
 if __name__ == "__main__":
-    valid_user()
+    #valid_user()
     #=== CONFIG
     print("\n__________ 매크로 환경설정 __________")
     EXITTIME = int( input(">>>반복 끝나는 시간 설정  (초단위)   ::"))
@@ -23,6 +23,7 @@ if __name__ == "__main__":
     print("\n__________ 마우스 커서 설정 __________")
     MOUSE_DELAY = float(input(">>>네모 영역안의 좌표간 이동 딜레이(0.001 기본)::"))
     AREA_DELAY  = float(input(">>>네모 영역간 클릭 딜레이(기본 0)::"))
+    CUR_REPEAT = int(input(">>>클릭 횟수(기본 1)::"))
     posList = []
     new_posList = []
     # p1(x1,y1)     p2(x2,y1)
@@ -55,8 +56,9 @@ if __name__ == "__main__":
     while True:
         for pos in new_posList:
             win32api.SetCursorPos(pos)
-            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+            for _ in range(CUR_REPEAT):
+                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
             time.sleep(MOUSE_DELAY)
             if time.time() - now > EXITTIME:
                 exit(1)
