@@ -1,5 +1,12 @@
 import win32api,win32con
 import time
+from threading import Thread
+def exit_timer(_sec,_now):
+    global idx
+    print(idx)
+    time.sleep(_sec)
+    print(idx)
+    exit(-1)
 
 def valid_user():
     # 20180815 20:03기준 4시간
@@ -12,7 +19,7 @@ def valid_user():
         exit(-1)
     else:
         print(">>>프로그램이 실행되었습니다.")
-
+idx = 1
 if __name__ == "__main__":
     #valid_user()
     #=== CONFIG
@@ -50,10 +57,11 @@ if __name__ == "__main__":
 
 
     now = time.time()
-    #t = Thread(target=exit_timer, args=(20, time.time()))
-    #t.start()
-
     idx = 1
+    t = Thread(target=exit_timer, args=(20, time.time()))
+    t.start()
+
+
     while True:
 
         #start = time.time()
@@ -62,10 +70,6 @@ if __name__ == "__main__":
             win32api.SetCursorPos(pos)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
-            if time.time() - now > EXITTIME:
-                #end = time.time()
-                print(idx)
-                #print(print_format.format((end - now))
-                exit(1)
+
 
 
