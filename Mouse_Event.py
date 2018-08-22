@@ -16,13 +16,18 @@ def valid_user():
 if __name__ == "__main__":
     valid_user()
     #=== CONFIG
-    EXITTIME = int( input(">>>반복 끝나는 시간 설정 (초단위)::"))
+    print("\n__________ 매크로 환경설정 __________")
+    EXITTIME = int( input(">>>반복 끝나는 시간 설정  (초단위)   ::"))
     OFFSET_G = int( input(">>>가로 몇 등분 할 것인지 설정(정수로)::"))
     OFFSET_S = int( input(">>>세로 몇 등분 할 것인지 설정(정수로)::"))
+    print("\n__________ 마우스 커서 설정 __________")
+    MOUSE_DELAY = float(input(">>>네모 영역안의 좌표간 이동 딜레이(0.001 기본)::"))
+    AREA_DELAY  = float(input(">>>네모 영역간 클릭 딜레이(기본 0)::"))
     posList = []
     new_posList = []
     # p1(x1,y1)     p2(x2,y1)
     # p3(x1,y2)     p4(x2,y2)
+    print("\n__________ 영역 설정 __________")
     p1 = input('>>>사각형의 왼쪽 위 좌표에 커서를 둔 후 엔터키 입력::')
     posList.append(win32api.GetCursorPos())
     p4 = input('>>>사각형의 오른쪽 아래 좌표에 커서를 둔 후 엔터키 입력::')
@@ -51,5 +56,6 @@ if __name__ == "__main__":
             win32api.SetCursorPos(pos)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+            time.sleep(MOUSE_DELAY)
             if time.time() - now > EXITTIME:
                 exit(1)
